@@ -29,3 +29,7 @@ func NewTransaction(sellingOrder *Order, buyingOrder *Order, shares int, price f
 		DataTime: time.Now(),
 	}
 }
+
+func (t *Transaction) CalculateTotal(shares int, price float64) {
+	t.Total = float64(t.Shares) * price 
+}
