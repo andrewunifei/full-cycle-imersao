@@ -26,12 +26,8 @@ func NewBook(orderChanIn chan *Order, orderChanOut chan *Order, wg *sync.WaitGro
 func (b *Book) Trade() {
 	buyOrders := make(map[string]*OrderQueue)
 	sellOrders := make(map[string]*OrderQueue)
-	// buyOrders := NewOrderQueue()
-	// sellOrders := NewOrderQueue()
 
-	// heap.Init(buyOrders)
-	// heap.Init(sellOrders)
-
+	// Refatorar essa parte
 	for order := range b.OrdersChanIn {
 		asset := order.Asset.ID
 

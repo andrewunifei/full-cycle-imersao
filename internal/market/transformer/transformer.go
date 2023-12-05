@@ -3,7 +3,6 @@ package transformer
 import (
 	"github.com/andrewunifei/full-cycle-imersao/go/internal/market/dto"
 	"github.com/andrewunifei/full-cycle-imersao/go/internal/market/entity"
-	"golang.org/x/tools/go/analysis/passes/appends"
 )
 
 // Preenche o conteúdo da Order a partir do DTO recebido
