@@ -21,15 +21,21 @@ func main() {
 	defer wg.Wait()
 
 	kafkaMsgChan := make(chan *kafka.Message)
-	configMap := &kafka.ConfigMap{
+
+	configMapProducer := &kafka.ConfigMap{
 		"bootstrap.servers": "host.docker.internal:9094",
-		"group.id": "group-1",
-		"auto.offset.reset": "earliest",
 	}
 
-	producer := akafka.NewKafkaProducer(configMap)
-	consumer := akafka.NewKafkaConsumer(configMap, []string{"input-orders"})
+	configMapConsumer := &kafka.ConfigMap{
+		"bootstrap.servers": "host.docker.internal:9094",
+		"group.id": "group-1",
+		"auto.offset.reset": "latest",
+	}
+	
+	producer := akafka.NewKafkaProducer(configMapProducer)
+	consumer := akafka.NewKafkaConsumer(configMapConsumer, []string{"input-orders"})
 
+	// Consome as ordens vinda do Kafka
 	go consumer.Consume(kafkaMsgChan) // Criação de Thread 2
 
 	// Recebe do kafka
@@ -41,6 +47,7 @@ func main() {
 	go func() {
 		for msg := range kafkaMsgChan {
 			wg.Add(1)
+			fmt.Println(string(msg.Value))
 			tradeInput := dto.TradeInput{}
 			err := json.Unmarshal(msg.Value, &tradeInput)
 
@@ -49,6 +56,8 @@ func main() {
 			}
 
 			order := transformer.TransformInput(tradeInput)
+
+			// Envia as ordens para função do Book em outra thread
 			ordersIn <- order
 		}	
 	}()
@@ -56,11 +65,13 @@ func main() {
 	for res := range ordersOut {
 		output := transformer.TransformOutput(res)
 		outputJson, err := json.MarshalIndent(output, "", "   ")
+		fmt.Println(string(outputJson))
 
 		if err != nil {
 			fmt.Println(err)
 		}
 
+		// Publica no Kafka o Output produzido no Book
 		producer.Publish(outputJson, []byte("orders"), "output-orders")
 	}
 }

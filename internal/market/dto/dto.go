@@ -28,6 +28,6 @@ type TransactionOutput struct {
 	BuyerID			string	`json:"buyer_id"`
 	SellerID		string	`json:"seller_id"`
 	AssetID			string	`json:"asset_id"`
-	Price			float64	`json:"price_id"`
-	Shares			int		`json:"shares_id"`
+	Price			float64	`json:"price"`
+	Shares			int		`json:"shares"`
 }

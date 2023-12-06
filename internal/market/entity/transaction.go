@@ -51,5 +51,5 @@ func (t *Transaction) AddBuyOrderPendingShares(shares int) {
 }
 
 func (t *Transaction) AddSellOrderPendingShares(shares int) {
-	t.BuyingOrder.PendingShares += shares 
+	t.SellingOrder.PendingShares += shares 
 }

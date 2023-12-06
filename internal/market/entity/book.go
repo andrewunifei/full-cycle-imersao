@@ -40,7 +40,7 @@ func (b *Book) Trade() {
 			sellOrders[asset] = NewOrderQueue()
 			heap.Init(sellOrders[asset])
 		}
-
+		// Refatorar essa parte
 		if order.OrderType == "BUY" {
 			buyOrders[asset].Push(order)
 
@@ -63,7 +63,7 @@ func (b *Book) Trade() {
 
 		} else if order.OrderType == "SELL" {
 			sellOrders[asset].Push(order)
-
+			// Refatorar essa parte
 			if buyOrders[asset].Len() > 0 && buyOrders[asset].Orders[0].Price <= order.Price {
 				buyOrder := buyOrders[asset].Pop().(*Order)
 
