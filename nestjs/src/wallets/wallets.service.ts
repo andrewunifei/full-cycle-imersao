@@ -2,15 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class AssetsService {
+export class WalletsService {
     constructor(private prismaService: PrismaService) {}
 
     all() {
-        return this.prismaService.asset.findMany()
+        return this.prismaService.wallet.findMany()
     }
 
-    create(data: { id: string; ticker: string; price: number; }) {
-        return this.prismaService.asset.create({
+    create(data: { id: string; }) {
+        return this.prismaService.wallet.create({
             data,
         })
     }
