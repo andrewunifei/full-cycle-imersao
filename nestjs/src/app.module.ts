@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PrismaModule } from './prisma/prisma.module';
+import { AssetsModule } from './assets/assets.module';
 
 // Muitos comentários porque NestJS é uma tecnologia nova para mim
 // ES7 Decorator - @Module
@@ -13,7 +15,7 @@ import { AppService } from './app.service';
 // e todas as rotas que você quer habilitar são os verbos HTTP
 // que tbm são declarados com Decorators (@Get por exemplo)
 @Module({
-  imports: [],
+  imports: [PrismaModule, AssetsModule],
   controllers: [AppController],
   providers: [AppService],
 })
